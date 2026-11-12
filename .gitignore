@@ -1,0 +1,7 @@
+tests/.work/
+work/
+.nextflow*
+results/
+__pycache__/
+*.pyc
+conf/site.config

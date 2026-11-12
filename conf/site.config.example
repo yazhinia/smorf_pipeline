@@ -1,0 +1,8 @@
+// Copy to conf/site.config (git ignores it) and set the paths for your site.
+params {
+    python_bin        = '/path/to/env/bin/python'           // Python 3 with PyYAML, runs bin/*.py
+    orfipy_bin        = '/path/to/env/bin/orfipy'           // orfipy 0.0.4
+    popcorn_python    = '/path/to/popcorn_env/bin/python'   // Python env that runs Popcorn
+    popcorn_dir       = '/path/to/Popcorn'                  // Popcorn checkout (Popcorn.py, DataFiles/)
+    antifam_hmm       = '/path/to/AntiFam.hmm'              // AntiFam release 8.0
+}

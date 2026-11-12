@@ -1,0 +1,28 @@
+# smorf_pipeline run options. Only change what the user agreed to; log every change.
+input: /path/to/genomes            # FASTA, directory of FASTAs, or samplesheet (.tsv/.csv)
+split_mode: file                   # file | record | regex
+split_regex: null                  # one capture group, only for split_mode: regex
+id_prefix: gU                      # genome ids gU000001, gU000002, ...
+
+max_chunks: 0                      # >0 = pilot on the first N chunks of 500 genomes
+chunk_size: 500
+bakta_batch: 4
+smorf_batch: 20
+
+publish_intermediates: false       # true = also keep per-tool GFFs (large on big runs)
+concat_max_genomes: 1000           # above this, smORF tables stay per chunk
+feedback_dir: null                 # shared developer log, only with the user's agreement
+
+# Extra gene callers, merged after Bakta, GMSC-Mapper and smORFinder (see README).
+extra_callers: []
+# extra_callers:
+#   - name: pyrodigal_sorf             # lowercase; shown in the `tools` column of smorfs.tsv
+#     description: Pyrodigal with min gene length 45 nt
+#     env: conda:/lustre/.../smorf_tools/pyrodigal/env   # module:<m> | conda:<env> | sif:<image> | none
+#     command: "pyrodigal -i {fasta} -o {gff} -f gff -p single -g 11 --min-gene 45 --min-edge-gene 45 --max-overlap 45"
+#     version_cmd: "pyrodigal --version"
+#     batch: 20                        # genomes per task (1 per task for runs of <= 50 genomes)
+#     cpus: 1
+#     memory: 2 GB
+#     time: 4h                         # per task
+#     timeout: 30m                     # per genome

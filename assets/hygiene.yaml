@@ -1,0 +1,8 @@
+# Sequence hygiene, copied from classifier_dataset/lf_config.yaml (hygiene block).
+# Zero tolerance on X. An internal stop is a hygiene failure (wrong translation or a broken
+# call), never evidence about coding.
+hygiene:
+  ambig_drop:
+    drop_any_x: true
+    drop_internal_stop: true
+    nonstandard_residues: "BZJUO"
