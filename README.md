@@ -1,7 +1,7 @@
-## smORF prediction pipeline
+# smORF prediction pipeline
 
 Predict microproteins (small ORFs, ≤100 aa) from bacterial genome FASTA files on the Sanger farm
-(LSF, PaM modules, databases on `/data/pam`), from one genome to large screens.
+(LSF, PaM modules, databases on `/data/pam`), from one genome to screens of large genome catalogs.
 
 ```text
  genome FASTA    one file, a folder of files, or a samplesheet
@@ -20,8 +20,9 @@ Predict microproteins (small ORFs, ≤100 aa) from bacterial genome FASTA files 
 ```
 Each stage ends at a checkpoint (`results/qc/<stage>_summary.md`): continue, adjust or stop.
 
-### Set up once
-`SMORF` is the pipeline folder. One copy serves all your runs (and a team); runs never write into it.
+## Set up
+
+`SMORF` is the pipeline folder. One copy serves all your runs (and a team).
 
 ```bash
 git clone https://github.com/yazhinia/smorf_pipeline.git $SMORF   # skip if using a shared team copy
@@ -33,23 +34,25 @@ ln -s $SMORF/.claude/skills/smorf-predict ~/.claude/skills/smorf-predict
 ignores it, so on a team you can copy it from the shared copy. The link makes the `smorf-predict`
 skill work in any folder, and `git pull` updates it (without it: `claude --add-dir $SMORF`).
 
-### Run with Claude Code
+## Run with Claude Code
+
 ```bash
-cd $PROJECT        # your working folder
+cd $PROJECT        # working folder
 claude
 ```
 Ask e.g. *"predict microproteins in ./genomes"*. 
 
 ![smorf-predict demo](docs/demo.gif)
-*Illustrated session; the numbers come from a real run on the test genome gI053058 (E. coli).*
+*Illustrated session with a real run on the test genome gI053058 (E. coli).*
 
 Claude inspects the input, agrees the options with you, runs one stage at a time and explains
 each checkpoint. You need not watch a running stage: keep talking, or close Claude and later ask
 it to check the run. At any checkpoint you can run the rest without stopping.
 
-Every answer is logged in `run_log/decisions.tsv`, which is how the pipeline gets improved.
+Every answer is logged in `run_log/decisions.tsv`.
 
-### Run from the command line
+## Run from the command line
+
 ```bash
 RUN=$PROJECT/smorf_runs/setA       # one folder per genome set, on /lustre or /data/pam
 mkdir -p $RUN
@@ -62,17 +65,17 @@ $SMORF/bin/smorf_status.sh $RUN            # progress
 genome sets can run at once, each in its own run folder; never launch two runs in one folder.
 
 ### Add a gene caller (optional)
-Any tool that reads a genome FASTA and writes a GFF with `CDS` rows can join the merge. Its calls
-add smORFs and count toward `support_n`, so results then differ from the published catalog method.
+User can feed any new tool that reads a genome FASTA and writes a GFF with `CDS` rows. The pipeline installs user suggested tool, run and join CDS prediction with output of exiting tools.
 
-Easiest: ask Claude, e.g. *"also run pyrodigal with a 45 nt minimum gene length"*. 
+Example: ask Claude, e.g. *"also run pyrodigal with a 45 nt minimum gene length"*. 
 
-By hand:
+Manually adding a new tool:
 install it with `bin/install_tool.sh`, add an `extra_callers:` entry to `params.yaml` (example in
 `params_template.yaml`), then check it with `bin/list_tools.py` and test it on one genome with
 `bin/test_caller.sh` before `call`.
 
-### Output
+## Output
+
 The output files are saved in `results` folder.
 
 | file | content |
