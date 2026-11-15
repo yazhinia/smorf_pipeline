@@ -35,10 +35,13 @@ skill work in any folder, and `git pull` updates it (without it: `claude --add-d
 
 ### Run with Claude Code
 ```bash
-cd $PROJECT        # your working folder, on /lustre or /data/pam
+cd $PROJECT        # your working folder
 claude
 ```
 Ask e.g. *"predict microproteins in ./genomes"*. 
+
+![smorf-predict demo](docs/demo.gif)
+*Illustrated session; the numbers come from a real run on the test genome gI053058 (E. coli).*
 
 Claude inspects the input, agrees the options with you, runs one stage at a time and explains
 each checkpoint. You need not watch a running stage: keep talking, or close Claude and later ask
@@ -69,7 +72,9 @@ install it with `bin/install_tool.sh`, add an `extra_callers:` entry to `params.
 `params_template.yaml`), then check it with `bin/list_tools.py` and test it on one genome with
 `bin/test_caller.sh` before `call`.
 
-### Outputs (`results/`)
+### Output
+The output files are saved in `results` folder.
+
 | file | content |
 |---|---|
 | `smorfs.tsv` / `.faa` / `.gff3` | one row per smORF: position, length, `partial`, callers (`tools`, `support_n`), `source`, AntiFam and Popcorn flags, sequence, your sample and contig names |
